@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  version: MyString
+  date: 
+  price: 
+  no_of_pages: 
+  cover_type: MyString
+
+two:
+  version: MyString
+  date: 
+  price: 
+  no_of_pages: 
+  cover_type: MyString

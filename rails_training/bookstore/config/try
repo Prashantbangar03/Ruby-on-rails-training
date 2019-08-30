@@ -1,0 +1,127 @@
+module Publications
+    class PublicationsAPI < Grape::API
+   
+      format :json
+   
+      desc "Publication List", {
+          :notes => <<-NOTE
+          Get All Publications
+           __________________
+          NOTE
+      }
+   
+      get do
+        Publication.all
+      end
+   
+   
+      desc "Publication By Id", {
+          :notes => <<-NOTE
+          Get Publication By Id
+           __________________
+          NOTE
+      }
+   
+      params do
+        requires :id, type: Integer, desc: "Publication id"
+      end
+   
+      get ':id' do
+        begin
+          publication = Publication.find(params[:id])
+        rescue ActiveRecord::RecordNotFound
+          error!({ status: :not_found }, 404)
+        end
+      end
+   
+      desc "Delete Publication By Id", {
+          :notes => <<-NOTE
+          Delete Publication By Id
+           __________________
+          NOTE
+      }
+   
+      params do
+        requires :id, type: Integer, desc: "Publication id"
+      end
+   
+      delete ':id' do
+        begin
+          publication = Publication.find(params[:id])
+          { status: :success } if publication.delete
+        rescue ActiveRecord::RecordNotFound
+          error!({ status: :error, message: :not_found }, 404)
+        end
+      end
+   
+      desc "Update Publication By Id", {
+          :notes => <<-NOTE
+          Update Publication By Id
+                          __________________
+          NOTE
+      }
+   
+      params do
+        requires :id, type: Integer, desc: "Product id"
+        requires :name, type: String, desc: "Publication name"
+        requires :email_id, type: String, desc: "email d"
+        requires :mobile_number, type: Integer, desc: "mobile number"
+      end
+   
+      put ':id' do
+        begin
+          publication = Publication.find(params[:id])
+          if publication.update({
+                                name: params[:name],
+                                email_id: params[:email_id],
+                                mobile_number: params[:mobile_number],
+                                
+                            })
+            { status: :success }
+          else
+            error!({ status: :error, message: publication.errors.full_messages.first }) if product.errors.any?
+          end
+   
+   
+        rescue ActiveRecord::RecordNotFound
+          error!({ status: :error, message: :not_found }, 404)
+        end
+      end
+   
+   
+      desc "Create Publication", {
+          :notes => <<-NOTE
+          Create Publication
+           __________________
+          NOTE
+      }
+   
+      params do
+        requires :id, type: Integer, desc: "Product id"
+        requires :name, type: String, desc: "Publication name"
+        requires :email_id, type: String, desc: "email d"
+        requires :mobile_number, type: Integer, desc: "mobile number"
+      end
+   
+      post do
+        begin
+          publication =  Publication.create({
+                                    name: params[:name],
+                                    email_id: params[:email_id],
+                                    mobile_number: params[:mobile_number],
+            
+                                    })
+          if publication.save
+            { status: :success }
+          else
+            error!({ status: :error, message: publication.errors.full_messages.first }) if product.errors.any?
+          end
+   
+   
+        rescue ActiveRecord::RecordNotFound
+          error!({ status: :error, message: :not_found }, 404)
+        end
+      end
+    end
+  end
+  

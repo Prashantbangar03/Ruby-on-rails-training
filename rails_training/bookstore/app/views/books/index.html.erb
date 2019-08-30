@@ -1,0 +1,7 @@
+<h1>Books List</h1> 
+<%= link_to "Add Book",new_book_path(), method: "get",style: "margin:50px", class: "btn btn-primary"%>
+<% @books.each do |book| %>
+  <p><%=book.title%><%= link_to "Edit Book", edit_book_path(book), style: "margin-left:20px", class: "btn btn-primary"%>
+  <%= link_to "Delete Book", book, method: "delete", class: "btn btn-danger" %></p>
+  <%end%>
+
